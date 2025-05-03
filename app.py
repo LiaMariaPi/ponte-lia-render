@@ -25,3 +25,12 @@ def receber():
 def pingar():
     pedidos = os.listdir(PEDIDOS_DIR)
     return jsonify({"pedidos": pedidos})
+
+@app.route('/pedidos/<ficheiro>', methods=['GET'])
+def ficheiro_individual(ficheiro):
+    caminho = os.path.join(PEDIDOS_DIR, ficheiro)
+    if not os.path.exists(caminho):
+        return jsonify({"erro": "Ficheiro não encontrado"}), 404
+    with open(caminho, "r") as f:
+        conteudo = f.read()
+    return conteudo
