@@ -35,6 +35,14 @@ def ficheiro_individual(ficheiro):
         conteudo = f.read()
     return conteudo
 
+@app.route('/pedidos/<ficheiro>', methods=['PUT'])
+def receber_ficheiro(ficheiro):
+    caminho = os.path.join(PEDIDOS_DIR, ficheiro)
+    os.makedirs(PEDIDOS_DIR, exist_ok=True)
+    with open(caminho, "w", encoding="utf-8") as f:
+        f.write(request.data.decode("utf-8"))
+    return jsonify({"mensagem": "Ficheiro recebido com sucesso!"}), 200
+
 @app.route("/remover/<nome>", methods=["DELETE"])
 def remover_pedido(nome):
     caminho = os.path.join(PEDIDOS_DIR, nome)
