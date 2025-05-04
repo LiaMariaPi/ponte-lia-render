@@ -34,3 +34,12 @@ def ficheiro_individual(ficheiro):
     with open(caminho, "r") as f:
         conteudo = f.read()
     return conteudo
+
+@app.route("/remover/<nome>", methods=["DELETE"])
+def remover_pedido(nome):
+    caminho = os.path.join(PEDIDOS_DIR, nome)
+    if os.path.exists(caminho):
+        os.remove(caminho)
+        return jsonify({"mensagem": f"{nome} apagado com sucesso."}), 200
+    else:
+        return jsonify({"erro": "Ficheiro não encontrado."}), 404
